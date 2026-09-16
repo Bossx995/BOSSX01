@@ -18,8 +18,8 @@ const ytdl = require("@distube/ytdl-core");
 
 const logger = P({ level: process.env.LOG_LEVEL || "info" });
 const express = require("express");
-let pairingSocket = null;
 const app = express();
+let pairingSocket = null;
 let pairingBusy = false;
 let lastPairAt = 0;
 const DATA_DIR = "./bot_data";
