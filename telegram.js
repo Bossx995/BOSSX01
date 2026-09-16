@@ -11,10 +11,6 @@ if (!token) {
     polling: true
   });
 
-  // ==============================
-  // Telegram Error Handling
-  // ==============================
-
   bot.on("polling_error", (error) => {
     console.error("Telegram polling error:", error.message);
   });
@@ -23,10 +19,9 @@ if (!token) {
     console.error("Telegram bot error:", error.message);
   });
 
-  // ==============================
+  // =========================
   // /start
-  // ==============================
-
+  // =========================
   bot.onText(/^\/start(?:\s+.*)?$/i, async (msg) => {
     const chatId = msg.chat.id;
     const firstName = msg.from?.first_name || "User";
@@ -69,7 +64,6 @@ ${pairingUrl}`;
           inline_keyboard: keyboard
         }
       });
-
     } catch (error) {
       console.error(
         "Telegram /start reply failed:",
@@ -78,10 +72,9 @@ ${pairingUrl}`;
     }
   });
 
-  // ==============================
+  // =========================
   // /pair
-  // ==============================
-
+  // =========================
   bot.onText(/^\/pair(?:\s+(.+))?$/i, async (msg, match) => {
     const chatId = msg.chat.id;
 
@@ -89,7 +82,6 @@ ${pairingUrl}`;
       ? match[1].replace(/\D/g, "")
       : "";
 
-    // No number
     if (!number) {
       return bot.sendMessage(
         chatId,
@@ -104,13 +96,14 @@ ${pairingUrl}`;
       );
     }
 
-    // Basic number validation
-    if (number.length < 10 || number.length > 15) {
+    if (!/^\d{8,15}$/.test(number)) {
       return bot.sendMessage(
         chatId,
         `╭━━〔 📱 BOSS-X Pairing 〕━━╮
 │
 │ ❌ Invalid WhatsApp number
+│
+│ Country code সহ number দিন।
 │
 │ Example:
 │ /pair 919876543210
@@ -132,32 +125,73 @@ ${pairingUrl}`;
 ╰━━━━━━━━━━━━━━━━━━━━╯`
       );
 
-      /*
-       * IMPORTANT:
-       * Actual WhatsApp pairing-code generation
-       * must be connected to the pairing function
-       * inside index.js.
-       *
-       * Do NOT put a fake /api/pair URL here.
-       */
+      const port = process.env.PORT || 10000;
 
-      console.log(
-        `📱 Telegram pairing request: +${number}`
+      const response = await fetch(
+        `http://127.0.0.1:${port}/api/pair`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            number
+          })
+        }
       );
+
+      let result;
+
+      try {
+        result = await response.json();
+      } catch {
+        result = {
+          ok: false,
+          message: "Invalid response from pairing server."
+        };
+      }
+
+      if (!response.ok || !result.ok) {
+        return bot.sendMessage(
+          chatId,
+          `╭━━〔 📱 BOSS-X Pairing 〕━━╮
+│
+│ ❌ Pairing failed
+│
+│ ${result.message || "Could not generate pairing code."}
+│
+╰━━━━━━━━━━━━━━━━━━━━╯`
+        );
+      }
+
+      const code = String(result.code || "")
+        .toUpperCase()
+        .trim();
+
+      if (!code) {
+        return bot.sendMessage(
+          chatId,
+          `╭━━〔 📱 BOSS-X Pairing 〕━━╮
+│
+│ ❌ Pairing code পাওয়া যায়নি।
+│
+│ আবার চেষ্টা করুন।
+│
+╰━━━━━━━━━━━━━━━━━━━━╯`
+        );
+      }
 
       await bot.sendMessage(
         chatId,
         `╭━━〔 📱 BOSS-X Pairing 〕━━╮
 │
-│ ⚠️ Pairing engine connection
-│    is not connected yet.
+│ ✅ Pairing code generated
+│ 🔐 Code: ${code}
 │
-│ 📱 Number: +${number}
+│ 📱 WhatsApp → Linked Devices
+│ → Link with phone number
 │
-│ The Telegram command is working,
-│ but the actual WhatsApp pairing
-│ code must be connected to the
-│ existing WhatsApp pairing engine.
+│ ⏱️ এখন WhatsApp-এ এই code দিন।
 │
 ╰━━━━━━━━━━━━━━━━━━━━╯`
       );
@@ -170,36 +204,41 @@ ${pairingUrl}`;
 
       await bot.sendMessage(
         chatId,
-        `❌ Pairing failed.
-
-Reason:
-${error.message}`
+        `╭━━〔 📱 BOSS-X Pairing 〕━━╮
+│
+│ ❌ Pairing failed
+│
+│ Reason:
+│ ${error.message}
+│
+╰━━━━━━━━━━━━━━━━━━━━╯`
       );
     }
   });
 
-  // ==============================
+  // =========================
   // /help
-  // ==============================
-
+  // =========================
   bot.onText(/^\/help$/i, async (msg) => {
     try {
       await bot.sendMessage(
         msg.chat.id,
-        `🤖 BOSS-X-3 Commands
-
-/start - Start the bot
-/pair 919XXXXXXXXX - Pair WhatsApp number
-/help - Show help
-
-📱 WhatsApp Pairing
-Use:
- /pair 919XXXXXXXXX
+        `╭━━━〔 🤖 BOSS-X-3 HELP 〕━━━╮
+│
+│ /start
+│ Start Telegram bot
+│
+│ /pair 919XXXXXXXXX
+│ Generate WhatsApp pairing code
+│
+│ /help
+│ Show this help
+│
+╰━━━━━━━━━━━━━━━━━━━━━━╯
 
 💎 Powered by BOSS-X
 👑 Developer: Mr bikramhacker`
       );
-
     } catch (error) {
       console.error(
         "Telegram /help reply failed:",
@@ -207,10 +246,6 @@ Use:
       );
     }
   });
-
-  // ==============================
-  // Bot Started
-  // ==============================
 
   console.log("✅ Telegram bot started successfully.");
 
