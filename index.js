@@ -2528,10 +2528,6 @@ web.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-const WEB_PORT = Number(process.env.PORT || process.env.WEB_PORT || 3000);
-web.listen(WEB_PORT, "0.0.0.0", () => {
-  console.log(`🌐 BOSS-X pairing website listening on port ${WEB_PORT}`);
-});
 
 let startingBot = false;
 async function startBot() {
