@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+
+<title>BOSS-X WhatsApp Pairing</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 20px 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #fff;
+  background:
+    radial-gradient(circle at top, #3b2b00 0%, #111 25%, #000 65%);
+}
+
+/* MAIN */
+.container {
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+}
+
+/* PHOTO */
+.hero {
+  width: 100%;
+  overflow: hidden;
+  border: 2px solid #d4af37;
+  border-radius: 22px;
+  background: #050505;
+  box-shadow:
+    0 0 15px rgba(212,175,55,.35),
+    0 0 40px rgba(212,175,55,.12);
+}
+
+.hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* PANEL */
+.card {
+  margin-top: 16px;
+  padding: 25px 18px;
+  border: 1px solid #d4af37;
+  border-radius: 22px;
+  background: rgba(5,5,5,.96);
+  box-shadow: 0 0 35px rgba(212,175,55,.18);
+}
+
+/* BRAND */
+.logo {
+  text-align: center;
+  color: #f5d76e;
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  text-shadow:
+    0 0 8px #d4af37,
+    0 0 20px rgba(212,175,55,.6);
+}
+
+.subtitle {
+  text-align: center;
+  margin-top: 4px;
+  margin-bottom: 25px;
+  color: #aaa;
+  font-size: 13px;
+  letter-spacing: 3px;
+}
+
+/* INPUT */
+.input-box {
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 14px;
+
+  border: 1px solid #d4af37;
+  border-radius: 12px;
+
+  outline: none;
+  background: #111;
+  color: #fff;
+
+  font-size: 16px;
+}
+
+.input-box::placeholder {
+  color: #777;
+}
+
+.input-box:focus {
+  border-color: #f5d76e;
+  box-shadow: 0 0 15px rgba(212,175,55,.25);
+}
+
+/* PAIR BUTTON */
+.pair-btn {
+  width: 100%;
+  padding: 16px;
+
+  border: none;
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff0a6,
+      #f5d76e,
+      #d4af37,
+      #a67c00
+    );
+
+  color: #050505;
+  font-size: 17px;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 0 15px rgba(212,175,55,.35);
+}
+
+.pair-btn:hover {
+  filter: brightness(1.08);
+}
+
+.pair-btn:active {
+  transform: scale(.98);
+}
+
+/* RESULT */
+#result {
+  width: 100%;
+  min-height: 58px;
+
+  margin-top: 18px;
+  padding: 15px;
+
+  border: 1px solid #333;
+  border-radius: 12px;
+
+  background: #0e0e0e;
+  color: #ddd;
+
+  text-align: center;
+}
+
+.code {
+  margin-top: 10px;
+
+  color: #f5d76e;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 6px;
+
+  text-shadow: 0 0 12px rgba(212,175,55,.6);
+}
+
+/* INFO */
+.info {
+  margin-top: 18px;
+  padding: 16px;
+
+  border: 1px solid #333;
+  border-left: 3px solid #d4af37;
+  border-radius: 10px;
+
+  background: #0e0e0e;
+  color: #bbb;
+
+  font-size: 14px;
+  line-height: 1.7;
+  text-align: left;
+}
+
+.info-title {
+  color: #f5d76e;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+/* FEATURES */
+.features {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.feature {
+  flex: 1;
+
+  padding: 13px 5px;
+
+  border: 1px solid #292929;
+  border-radius: 10px;
+
+  background: #0c0c0c;
+
+  color: #aaa;
+  text-align: center;
+  font-size: 12px;
+}
+
+.feature-icon {
+  display: block;
+  margin-bottom: 6px;
+
+  color: #f5d76e;
+  font-size: 21px;
+}
+
+/* FOOTER BRAND */
+.footer {
+  margin-top: 22px;
+
+  text-align: center;
+
+  color: #f5d76e;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 5px;
+}
+
+.footer-sub {
+  margin-top: 5px;
+
+  text-align: center;
+
+  color: #666;
+  font-size: 12px;
+}
+
+/* SOCIAL */
+.social {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  margin-top: 20px;
+}
+
+/* SOCIAL BUTTON */
+.social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 55px;
+
+  text-decoration: none;
+
+  border-radius: 13px;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  transition: .2s;
+}
+
+.social a:hover {
+  transform: translateY(-2px);
+}
+
+/* WHATSAPP */
+.whatsapp {
+  color: #fff;
+
+  border: 1px solid #25D366;
+
+  background:
+    linear-gradient(
+      90deg,
+      #075e36,
+      #128c4a
+    );
+
+  box-shadow:
+    0 0 15px rgba(37,211,102,.18);
+}
+
+/* TELEGRAM */
+.telegram {
+  color: #fff;
+
+  border: 1px solid #229ED9;
+
+  background:
+    linear-gradient(
+      90deg,
+      #075985,
+      #168dcc
+    );
+
+  box-shadow:
+    0 0 15px rgba(34,158,217,.18);
+}
+
+/* BOTTOM */
+.bottom {
+  margin-top: 18px;
+
+  text-align: center;
+
+  color: #555;
+  font-size: 11px;
+}
+
+/* MOBILE */
+@media (max-width: 380px) {
+
+  .logo {
+    font-size: 34px;
+  }
+
+  .features {
+    gap: 5px;
+  }
+
+  .feature {
+    font-size: 11px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- =========================
+       BOSS-X PHOTO
+       ========================= -->
+  <div class="hero">
+    <img
+      src="/bossx.jpg"
+      alt="BOSS-X"
+    >
+  </div>
+
+
+  <!-- =========================
+       PAIRING PANEL
+       ========================= -->
+  <div class="card">
+
+    <div class="logo">
+      BOSS-X
+    </div>
+
+    <div class="subtitle">
+      WHATSAPP PAIRING PANEL
+    </div>
+
+
+    <!-- NUMBER -->
+    <input
+      id="number"
+      class="input-box"
+      type="tel"
+      placeholder="Enter WhatsApp number"
+      autocomplete="off"
+    >
+
+
+    <!-- PAIR -->
+    <button
+      id="pairButton"
+      class="pair-btn"
+      onclick="pairNumber()"
+    >
+      🔗 GET PAIRING CODE
+    </button>
+
+
+    <!-- RESULT -->
+    <div id="result">
+      Enter your WhatsApp number with country code.
+    </div>
+
+
+    <!-- INSTRUCTIONS -->
+    <div class="info">
+
+      <div class="info-title">
+        ℹ️ HOW TO PAIR
+      </div>
+
+      1. Enter your WhatsApp number with country code.<br>
+
+      2. Click <b>GET PAIRING CODE</b>.<br>
+
+      3. Open WhatsApp → <b>Linked Devices</b>.<br>
+
+      4. Select <b>Link with phone number</b>.<br>
+
+      5. Enter the pairing code shown above.
+
+    </div>
+
+
+    <!-- FEATURES -->
+    <div class="features">
+
+      <div class="feature">
+        <span class="feature-icon">🛡️</span>
+        Secure
+      </div>
+
+      <div class="feature">
+        <span class="feature-icon">⚡</span>
+        Fast
+      </div>
+
+      <div class="feature">
+        <span class="feature-icon">👑</span>
+        VIP
+      </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+    <div class="footer">
+      BOSS-X MD
+    </div>
+
+    <div class="footer-sub">
+      Powerful WhatsApp Bot
+    </div>
+
+
+    <!-- =========================
+         WHATSAPP CHANNEL
+         ========================= -->
+    <div class="social">
+
+      <a
+        class="whatsapp"
+        href="https://whatsapp.com/channel/0029VbDqHfKKQuJMRHZzZX11"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        🟢 &nbsp; JOIN WHATSAPP CHANNEL
+      </a>
+
+
+      <!-- =========================
+           TELEGRAM BOT
+           ========================= -->
+      <a
+        class="telegram"
+        href="https://t.me/BOSSXmd_Bot"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        🔵 &nbsp; OPEN TELEGRAM BOT
+      </a>
+
+    </div>
+
+
+    <div class="bottom">
+      © BOSS-X MD • WhatsApp Pairing System
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+async function pairNumber() {
+
+  const input = document.getElementById("number");
+  const result = document.getElementById("result");
+  const button = document.getElementById("pairButton");
+
+  const number = input.value.trim();
+
+  /* CHECK NUMBER */
+  if (!number) {
+
+    result.innerHTML =
+      "❌ Please enter your WhatsApp number.";
+
+    return;
+  }
+
+
+  /* REMOVE SPACES */
+  const cleanNumber =
+    number.replace(/\s+/g, "");
+
+
+  /* LOADING */
+  button.disabled = true;
+  button.innerText =
+    "⏳ GENERATING CODE...";
+
+  result.innerHTML =
+    "⏳ Please wait...";
+
+
+  try {
+
+    const response = await fetch(
+      "/api/pair",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+          number: cleanNumber
+        })
+      }
+    );
+
+
+    const data =
+      await response.json();
+
+
+    /* SUCCESS */
+    if (data.code) {
+
+      result.innerHTML =
+        "✅ PAIRING CODE" +
+        '<div class="code">' +
+        data.code +
+        "</div>";
+
+    }
+
+
+    /* ERROR */
+    else {
+
+      result.innerHTML =
+        "❌ " +
+        (
+          data.error ||
+          "Failed to generate pairing code."
+        );
+
+    }
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    result.innerHTML =
+      "❌ Server error. Please try again.";
+
+  }
+
+
+  /* RESET BUTTON */
+  button.disabled = false;
+
+  button.innerText =
+    "🔗 GET PAIRING CODE";
+}
+</script>
+
+</body>
+</html>
