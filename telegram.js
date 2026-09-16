@@ -38,7 +38,18 @@ if (!token) {
 👑 Developer: Mr bikramhacker`;
 
     try {
-      await bot.sendMessage(chatId, text);
+      await bot.sendMessage(chatId, text, {
+  reply_markup: {
+    inline_keyboard: [
+      [
+        {
+          text: "📱 Pair WhatsApp Number",
+          url: pairingUrl
+        }
+      ]
+    ]
+  }
+});
     } catch (error) {
       console.error("Telegram /start reply failed:", error.message);
     }
