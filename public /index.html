@@ -1,0 +1,21 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050505"><title>BOSS-X MD • Pairing</title><link rel="stylesheet" href="/style.css">
+</head><body><div class="orb a"></div><div class="orb b"></div><main><section class="card">
+<div class="brand"><div class="logo">BX</div><div><b>BOSS-X <i>MD</i></b><small>WHATSAPP AUTOMATION</small></div></div>
+<div class="pill">● ONLINE PAIRING</div><h1>Connect Your<br><span>WhatsApp</span></h1>
+<p class="intro">Enter your WhatsApp number with country code and generate your secure pairing code.</p>
+<form id="f"><label>WhatsApp Number</label><div class="input"><strong>+</strong><input id="n" inputmode="numeric" autocomplete="tel" placeholder="91XXXXXXXXXX" required></div>
+<button id="btn">Generate Pairing Code <b>→</b></button></form>
+<div id="out" class="out hidden"></div>
+<div class="steps"><span>⚡ Fast</span><span>🔒 Secure</span><span>🤖 BOSS-X</span></div>
+<footer><span>© 2026 BOSS-X MD</span><span>Mr bikramhacker</span></footer>
+</section></main>
+<script>
+const f=document.getElementById('f'),n=document.getElementById('n'),o=document.getElementById('out'),b=document.getElementById('btn');
+f.onsubmit=async e=>{e.preventDefault();b.disabled=true;b.textContent='Generating...';o.className='out';
+try{let r=await fetch('/api/pair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({number:n.value})});let d=await r.json();
+if(d.ok&&d.code){o.innerHTML='<small>PAIRING CODE</small><strong class="code">'+d.code+'</strong><button type="button" class="copy" onclick="copyCode()">Copy Code</button><p>'+d.message+'</p>'}else{o.innerHTML='<strong>⚠ '+d.message+'</strong>'}}catch(e){o.innerHTML='<strong>⚠ Server connection failed.</strong>'}
+b.disabled=false;b.innerHTML='Generate Pairing Code <b>→</b>'};
+function copyCode(){let c=document.querySelector('.code').textContent;navigator.clipboard?.writeText(c);let x=document.querySelector('.copy');x.textContent='Copied ✓';setTimeout(()=>x.textContent='Copy Code',1500)}
+</script></body></html>
