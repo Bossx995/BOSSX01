@@ -2529,6 +2529,7 @@ web.get("*", (req, res) => {
 });
 
 
+app.use(web);
 let startingBot = false;
 async function startBot() {
   if (startingBot) return;
